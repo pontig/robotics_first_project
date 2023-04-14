@@ -32,9 +32,7 @@ class pub_sub {
 
         odom_msg.twist.twist.linear.x = message.x * cos(custom_odom_msg.theta);
         odom_msg.twist.twist.linear.y = message.x * sin(custom_odom_msg.theta);
-        odom_msg.twist.twist.angular.z = message.x / D * tan(message.y);
-
-
+        odom_msg.twist.twist.angular.z = message.x * tan(message.y) / D;
     }
 
    private:
@@ -67,17 +65,17 @@ class pub_sub {
         return odom_msg;
     }
 
-    nav_msgs::Odometry compute_odom(geometry_msgs::Quaternion msg) {
-        double speed = msg.x;
-        double steer = msg.y;
+    // nav_msgs::Odometry compute_odom(geometry_msgs::Quaternion msg) {
+    //     double speed = msg.x;
+    //     double steer = msg.y;
 
-        nav_msgs::Odometry odom_msg;
-        double r = D / (tan(steer));
-        double omega = speed / r;
+    //     nav_msgs::Odometry odom_msg;
+    //     double r = D / (tan(steer));
+    //     double omega = speed / r;
 
-        odom_msg.pose.pose.position.x = custom_odom.x + speed * t * cos(custom_odom.theta + omega * t / 2);
-        odom_msg.pose.pose.position.y = custom_odom.y + speed * t * sin(custom_odom.theta + omega * t / 2);
-        odom_msg.pose.pose.orientation.z = custom_odom.theta + omega * t;
+    //     odom_msg.pose.pose.position.x = custom_odom.x + speed * t * cos(custom_odom.theta + omega * t / 2);
+    //     odom_msg.pose.pose.position.y = custom_odom.y + speed * t * sin(custom_odom.theta + omega * t / 2);
+    //     odom_msg.pose.pose.orientation.z = custom_odom.theta + omega * t;
 }
 
 int
@@ -88,4 +86,3 @@ main(int argc, char const* argv[]) {
 
     return 0;
 }
-
