@@ -11,6 +11,9 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  geometry_msgs
+  message_generation
+  tf
 )
 
 ## System dependencies are found with CMake's conventions
@@ -103,7 +106,7 @@ add_message_files(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES first_project
-  CATKIN_DEPENDS roscpp rospy std_msgs nav_msgs geometry_msgs first_project services
+  CATKIN_DEPENDS roscpp rospy std_msgs nav_msgs geometry_msgs message_runtime
 #  DEPENDS system_lib
 )
 
@@ -132,6 +135,7 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/first_project_node.cpp)
+add_executable(odom_node src/odom_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -142,11 +146,15 @@ include_directories(
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(odom_node ${catkin_EXPORTED_TARGETS})
+add_dependencies(odom_node custom_messages_generate_messages_cpp) ## add this line to load custom msg BEFORE compiling (otherwise error)
+
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
 # )
+target_link_libraries(odom_node ${catkin_LIBRARIES})
 
 #############
 ## Install ##
@@ -202,7 +210,3 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-
-add_executable(pub src/pub.cpp)
-target_link_libraries(pub ${catkin_LIBRARIES})
-add_dependencies(pub ${catkin_EXPORTED_TARGETS})
