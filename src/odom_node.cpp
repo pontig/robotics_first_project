@@ -61,9 +61,10 @@ class pub_sub {
             time = ros::Time::now();
             
             // reset the custom Odometry message parameters 
-            custom_odom.x  = 0.0; //TODO use n.getParam instead ?? 
-            custom_odom.y  = 0.0;
-            custom_odom.th = 0.0;
+            custom_odom.x ; //TODO use n.getParam instead ?? 
+            // No, the assignment says that reset should set the parameters to 0, not to starting value
+            custom_odom.y ;
+            custom_odom.th;
             custom_odom.timestamp = std::to_string(time.toSec());
 
             ROS_INFO("sending back response: [%d]", (bool)res.resetted);
