@@ -113,9 +113,8 @@ class pub_sub {
         double dt = (new_time - time).toSec();
         // ROS_INFO("dt: %f", dt);
 
-        if (dt > 100) {
-            // Please don't kill us
-            ROS_INFO("dt > 100");
+        if (time.toSec() == 0 || new_time.toSec() == 0) {
+            // the time isn't properly synced yet, ignore this message
             dt = 0;
         }
 
