@@ -27,15 +27,13 @@ Steps:
 ## Method for Odometry Computation
 Upon reading a new *Quaternion* message, containing speed (m/s) and steering angle (rad), from the `/speed_steer` topic: 
 
-1. the custom odometry message (x, y, theta, timestamp) is computed assuming an Ackerman Steering model approximated to a bicycle 
-
-1. the custom odometry message is published 
-
-1. the regular odometry message (*Pose*, *Twist*) is computed 
-
-1. the regular odometry message is published 
-
-1. the transform (base frame --> vehicle frame) is comuted 
-
-1. the transform is broadcasted 
+1. custom odometry message (x, y, theta, timestamp):
+    1. the custom odometry message is computed assuming an Ackerman Steering model approximated to a bicycle 
+    1. the custom odometry message is published 
+2. regular odometry message (*Pose*, *Twist*): 
+    1. the regular odometry message (*Pose*, *Twist*) is computed 
+    1. the regular odometry message is published 
+5. transform (base frame -> moving frame):
+    1. the transform is comuted 
+    1. the transform is broadcasted 
 
