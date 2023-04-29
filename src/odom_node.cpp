@@ -21,10 +21,6 @@ class pub_sub {
         n.getParam("/starting_y", custom_odom.y);
         n.getParam("/starting_th", custom_odom.th);
 
-        // ROS_INFO("custom_x: %f", custom_odom.x);
-        // ROS_INFO("custom_y: %f", custom_odom.y);
-        // ROS_INFO("custom_th: %f", custom_odom.th);
-
         // Subscriber
         ssteer_sub = n.subscribe("/speed_steer", 1000, &pub_sub::callback, this);
         // Service
@@ -33,7 +29,6 @@ class pub_sub {
         custom_pub = n.advertise<first_project::Odom>("custom_odometry", 1);
         regular_pub = n.advertise<nav_msgs::Odometry>("odometry", 1);
         time = ros::Time::now();
-        // ROS_INFO("first time: %f", time.toSec());
     }
 
     void callback(const geometry_msgs::Quaternion::ConstPtr& msg) {
@@ -70,7 +65,6 @@ class pub_sub {
         custom_odom.timestamp = std::to_string(time.toSec());
 
         res.resetted = true;
-        // ROS_INFO("sending back response: [%d]", (bool)res.resetted);
 
         return true;
     }
@@ -94,23 +88,17 @@ class pub_sub {
 
     first_project::Odom compute_custom_odom(geometry_msgs::Quaternion msg) {
         double speed = msg.x;
-        // ROS_INFO("speed: %f", speed);
         double steering_angle = msg.y;
-        // ROS_INFO("steering_angle: %f", steering_angle);
 
         // Ackerman Steering (Bicycle Approximation):
         // r = radius from ICC to center of the vehicle
         double r = D / (tan(steering_angle));
-        // ROS_INFO("r: %f", r);
         // omega = angular velocity
         double omega = speed / r;
-        // ROS_INFO("omega: %f", omega);
 
         // Compute delta t
         ros::Time new_time = ros::Time::now();
-        // ROS_INFO("new_time: %f", new_time.toSec());
         double dt = (new_time - time).toSec();
-        // ROS_INFO("dt: %f", dt);
 
         if (time.toSec() == 0 || new_time.toSec() == 0) {
             // the time isn't properly synced yet, ignore this message
@@ -126,11 +114,6 @@ class pub_sub {
         new_custom_odom.th = custom_odom.th + omega * dt;
         new_custom_odom.timestamp = std::to_string(new_time.toSec());
         time = new_time;
-
-        // ROS_INFO("new_custom_x: %f", new_custom_odom.x);
-        // ROS_INFO("new_custom_y: %f", new_custom_odom.y);
-        // ROS_INFO("new_custom_th: %f", new_custom_odom.th);
-        // ROS_INFO("new_custom_timestamp: %s", new_custom_odom.timestamp.c_str());
 
         custom_odom = new_custom_odom;
         return new_custom_odom;
