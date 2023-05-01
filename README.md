@@ -28,7 +28,7 @@ Steps:
 Upon reading a new *Quaternion* message, containing speed (m/s) and steering angle (rad), from the `/speed_steer` topic: 
 
 1. custom odometry message (x, y, theta, timestamp):
-    1. the custom odometry message is computed assuming an Ackerman Steering model approximated to a bicycle 
+    1. the custom odometry message is computed assuming an Ackerman Steering model approximated to a bicycle, using 2nd order Runge-Kutta integration 
     1. the custom odometry message is published 
 2. regular odometry message (*Pose*, *Twist*): 
     1. the regular odometry message (*Pose*, *Twist*) is computed 
