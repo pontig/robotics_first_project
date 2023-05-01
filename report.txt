@@ -1,0 +1,12 @@
+Automatically generated report
+
+Group members:
+Martino, Marianna, id:10715995
+Pontiggia, Elia, id:10716792
+Poggiolini, EmmaGaia, id:10916495
+
+Code test:
+1.Package succesfully compiled
+2.Publisher started succesfully
+3.Bag started succesfully
+4.Publisher is publishing data
