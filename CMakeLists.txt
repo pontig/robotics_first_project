@@ -16,16 +16,15 @@ add_message_files(
   Odom.msg
 )
 
- add_service_files(
-   FILES
-   ResetOdom.srv
- )
+add_service_files(
+  FILES
+  ResetOdom.srv
+)
 
-
- generate_messages(
-   DEPENDENCIES
-   std_msgs
- )
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+)
 
 
 catkin_package(
